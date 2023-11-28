@@ -1,3 +1,5 @@
+MAX_WEDGE_TYPES=16;
+BLOCK_SIZES_ALL=22;
 av1_wedge_params_lookup = create_av1_wedge_params_lookup();
 BLOCK_SIZE=1:1:22;% [1-BLOCK_4X4, 2-BLOCK_4X8, 3-BLOCK_8X4, 4-BLOCK_8X8, 5-BLOCK_8X16, 6-BLOCK_16X8, 
                   % 7-BLOCK_16X16, 8-BLOCK_16X32, 9-BLOCK_32X16, 10-BLOCK_32X32, 11-BLOCK_32X64,
@@ -8,7 +10,7 @@ block_size_wide=[4,  4,  8,  8,   8,   16, 16, 16, 32, 32, 32, 64, 64, 64, 128, 
 block_size_high=[4,  8,  4,   8,  16,  8,  16, 32, 16, 32, 64, 32, 64, 128, 64, 128, 16, 4,  32, 8,  64, 16];
 for bsize=1:22
     wedge_params=av1_wedge_params_lookup(bsize,:);
-    wtypes=wedge_params(1);
+    wtypes=cell2mat(wedge_params(1));
     if wtypes==0
         continue;
     end
