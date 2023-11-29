@@ -95,7 +95,7 @@ av1_wedge_params_lookup={0,NaN,NaN,NaN; %not used
                          MAX_WEDGE_TYPES,wedge_codebook_16_hltw,wedge_signflip_lookup(6,:),wedge_masks(6,:,:,:);
                          MAX_WEDGE_TYPES,wedge_codebook_16_heqw,wedge_signflip_lookup(7,:),wedge_masks(7,:,:,:);
                          MAX_WEDGE_TYPES,wedge_codebook_16_hgtw,wedge_signflip_lookup(8,:),wedge_masks(8,:,:,:);
-                         MAX_WEDGE_TYPES,wedge_codebook_16_hltw,wedge_signflip_lookup(9,:),wedge_masks(9,:,:);
+                         MAX_WEDGE_TYPES,wedge_codebook_16_hltw,wedge_signflip_lookup(9,:),wedge_masks(9,:,:,:);
                          MAX_WEDGE_TYPES,wedge_codebook_16_heqw,wedge_signflip_lookup(10,:),wedge_masks(10,:,:,:);
                          0,NaN,NaN,NaN; %not used
                          0,NaN,NaN,NaN; %not used
