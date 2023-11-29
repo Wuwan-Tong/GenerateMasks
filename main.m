@@ -1,5 +1,10 @@
 MAX_WEDGE_TYPES=16;
 BLOCK_SIZES_ALL=22;
+MAX_WEDGE_SIZE_LOG2=5;
+MAX_WEDGE_SIZE=2^MAX_WEDGE_SIZE_LOG2;
+MASK_MASTER_SIZE=MAX_WEDGE_SIZE*2;
+MASK_MASTER_STRIDE=MASK_MASTER_SIZE;
+
 av1_wedge_params_lookup = create_av1_wedge_params_lookup();
 BLOCK_SIZE=1:1:22;% [1-BLOCK_4X4, 2-BLOCK_4X8, 3-BLOCK_8X4, 4-BLOCK_8X8, 5-BLOCK_8X16, 6-BLOCK_16X8, 
                   % 7-BLOCK_16X16, 8-BLOCK_16X32, 9-BLOCK_32X16, 10-BLOCK_32X32, 11-BLOCK_32X64,
@@ -8,6 +13,7 @@ BLOCK_SIZE=1:1:22;% [1-BLOCK_4X4, 2-BLOCK_4X8, 3-BLOCK_8X4, 4-BLOCK_8X8, 5-BLOCK
 wedge_masks=zeros(BLOCK_SIZES_ALL,2,MAX_WEDGE_TYPES);
 block_size_wide=[4,  4,  8,  8,   8,   16, 16, 16, 32, 32, 32, 64, 64, 64, 128, 128, 4,  16, 8,  32, 16, 64];
 block_size_high=[4,  8,  4,   8,  16,  8,  16, 32, 16, 32, 64, 32, 64, 128, 64, 128, 16, 4,  32, 8,  64, 16];
+
 for bsize=1:22
     wedge_params=av1_wedge_params_lookup(bsize,:);
     wtypes=cell2mat(wedge_params(1));
@@ -16,8 +22,15 @@ for bsize=1:22
     end
     bw = block_size_wide(bsize);
     bh = block_size_high(bsize);
+    dst=zeros(1,bh*bw);
     for w=1:wtypes
         mask=get_wedge_mask_inplace(w, 0, bsize);
+        for r=0:bh-1
+            dst(1,bw*r+1:bw*r+bw)=mask(1,MASK_MASTER_STRIDE*r+1:MASK_MASTER_STRIDE*r+bw);
+        end
+        temp_mask=cell2mat(wedge_params(4));
+        temp_mask(1,1,w,1:bh*bw)=dst(1:end);
+        wedge_params(4)=mat2cell(temp_mask,[1],[1].[MAX_WEDGE_TYPES],[128*128]);        
     end
         
 end

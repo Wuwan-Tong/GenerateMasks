@@ -6,7 +6,76 @@ MAX_WEDGE_SIZE_LOG2=5;
 MAX_WEDGE_SIZE=2^MAX_WEDGE_SIZE_LOG2;
 MASK_MASTER_SIZE=MAX_WEDGE_SIZE*2;
 MASK_MASTER_STRIDE=MASK_MASTER_SIZE;
+
+% init wedge_mask_obl
 wedge_mask_obl=zeros(2,WEDGE_DIRECTIONS,MASK_MASTER_SIZE*MASK_MASTER_SIZE);
+wedge_master_vertical=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,7,21,43,57,62,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64];
+wedge_master_oblique_even=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,4,11,27,46,58,62,63,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64];
+wedge_master_oblique_odd=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,6,18,37,53,60,63,64,64,64,64,64,64,64,64,64,64 64 64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64];
+stride=MASK_MASTER_STRIDE;
+h=MASK_MASTER_SIZE;
+w=MASK_MASTER_SIZE;
+WEDGE_WEIGHT_BITS=6;
+WEDGE_HORIZONTAL = 0;
+WEDGE_VERTICAL=1;
+WEDGE_OBLIQUE27 = 2;
+WEDGE_OBLIQUE63 = 3;
+WEDGE_OBLIQUE117 = 4;
+WEDGE_OBLIQUE153 = 5;
+shift=h/4;
+for i=0:2:h-1
+    % shift_copy
+    if shift>=0
+        % memset()
+        wedge_mask_obl(1,WEDGE_OBLIQUE63+1,i*stride+1:i*stride+shift)=wedge_master_oblique_even(1)*ones(1,shift);
+        % memcpy()
+        wedge_mask_obl(1,WEDGE_OBLIQUE63+1,i*stride+1+shift:i*stride+MASK_MASTER_SIZE)=wedge_master_oblique_even(1:MASK_MASTER_SIZE-shift);
+    else
+        shift=-shift;
+        % memset()
+        wedge_mask_obl(1,WEDGE_OBLIQUE63+1,i*stride+1+MASK_MASTER_SIZE-shift:i*stride+MASK_MASTER_SIZE)=wedge_master_oblique_even(MASK_MASTER_SIZE)*ones(1,shift);
+        % memcpy()
+        wedge_mask_obl(1,WEDGE_OBLIQUE63+1,i*stride+1:i*stride+MASK_MASTER_SIZE-shift)=wedge_master_oblique_even(1+shift:MASK_MASTER_SIZE);
+        shift=-shift;
+    end
+    shift=shift-1;
+    % todo
+    if shift>=0
+        % memset()
+        wedge_mask_obl(1,WEDGE_OBLIQUE63+1,(i+1)*stride+1:(i+1)*stride+shift)=wedge_master_oblique_odd(1)*ones(1,shift);
+        % memcpy()
+        wedge_mask_obl(1,WEDGE_OBLIQUE63+1,(i+1)*stride+1+shift:(i+1)*stride+MASK_MASTER_SIZE)=wedge_master_oblique_odd(1:MASK_MASTER_SIZE-shift);
+    else
+        shift=-shift;
+        % memset()
+        wedge_mask_obl(1,WEDGE_OBLIQUE63+1,(i+1)*stride+1+MASK_MASTER_SIZE-shift:(i+1)*stride+MASK_MASTER_SIZE)=wedge_master_oblique_odd(MASK_MASTER_SIZE)*ones(1,shift);
+        % memcpy()
+        wedge_mask_obl(1,WEDGE_OBLIQUE63+1,(i+1)*stride+1:(i+1)*stride+MASK_MASTER_SIZE-shift)=wedge_master_oblique_odd(1+shift:MASK_MASTER_SIZE);
+        shift=-shift;
+    end        
+    wedge_mask_obl(1,WEDGE_VERTICAL+1,(i)*stride+1:(i+1)*stride)=wedge_master_vertical(:);
+    wedge_mask_obl(1,WEDGE_VERTICAL+1,(i+1)*stride+1:(i+2)*stride)=wedge_master_vertical(:);
+end
+for i=0:h-1
+    for j=0:w-1
+        if i==28&&j==27
+            a=1;
+        end
+        msk=wedge_mask_obl(1,WEDGE_OBLIQUE63+1,i*stride+j+1);
+        wedge_mask_obl(1,WEDGE_OBLIQUE27+1,j*stride+i+1)=msk;
+        wedge_mask_obl(1,WEDGE_OBLIQUE153+1,(w-1-j)*stride+i+1)=2^WEDGE_WEIGHT_BITS-msk;
+        wedge_mask_obl(1,WEDGE_OBLIQUE117+1,i*stride+w-j)=2^WEDGE_WEIGHT_BITS-msk; 
+        wedge_mask_obl(2,WEDGE_OBLIQUE27+1,j*stride+i+1)=2^WEDGE_WEIGHT_BITS-msk;
+        wedge_mask_obl(2,WEDGE_OBLIQUE63+1,i*stride+j+1)=2^WEDGE_WEIGHT_BITS-msk;
+        wedge_mask_obl(2,WEDGE_OBLIQUE153+1,(w-1-j)*stride+i+1)=msk; 
+        wedge_mask_obl(2,WEDGE_OBLIQUE117+1,i*stride+w-j)=msk;
+        mskx=wedge_mask_obl(1,WEDGE_VERTICAL+1,i*stride+j+1);
+        wedge_mask_obl(1,WEDGE_HORIZONTAL+1,j*stride+i+1)=mskx;
+        wedge_mask_obl(2,WEDGE_HORIZONTAL+1,j*stride+i+1)=2^WEDGE_WEIGHT_BITS-mskx;
+        wedge_mask_obl(2,WEDGE_VERTICAL+1,i*stride+j+1)=2^WEDGE_WEIGHT_BITS-mskx;
+    end
+end
+
 
 bh = block_size_high(sb_type);
 bw = block_size_wide(sb_type);
@@ -22,7 +91,12 @@ if wedge_index<0 ||wedge_index>cell2mat(av1_wedge_params_lookup(sb_type,1))
 end
 woff=(a(2)*bw)/8;
 hoff=(a(3)*bh)/8;
-master=wedge_mask_obl(neg^wsignflip+1,a(1)+1,MASK_MASTER_STRIDE*(MASK_MASTER_SIZE/2-hoff)+MASK_MASTER_SIZE / 2 - woff);
-% todo: init wedge_mask_obl
+temp_sign=neg;
+if wsignflip==1
+    temp_sign=mod(neg+1,2);
+end
+master=zeros(1,MASK_MASTER_STRIDE*bh);
+master(1,:)=wedge_mask_obl(temp_sign+1,a(1)+1,MASK_MASTER_STRIDE*(MASK_MASTER_SIZE/2-hoff)+MASK_MASTER_SIZE / 2 - woff+1:MASK_MASTER_STRIDE*(MASK_MASTER_SIZE/2-hoff)+MASK_MASTER_SIZE / 2 - woff+MASK_MASTER_STRIDE*bh);
+
 end
 
