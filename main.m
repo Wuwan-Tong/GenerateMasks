@@ -30,7 +30,15 @@ for bsize=1:22
         end
         temp_mask=cell2mat(wedge_params(4));
         temp_mask(1,1,w,1:bh*bw)=dst(1:end);
-        wedge_params(4)=mat2cell(temp_mask,[1],[1].[MAX_WEDGE_TYPES],[128*128]);        
+        %wedge_params(4)=mat2cell(temp_mask,[1],[2],[MAX_WEDGE_TYPES],[128*128]);
+        
+         mask=get_wedge_mask_inplace(w, 1, bsize);
+        for r=0:bh-1
+            dst(1,bw*r+1:bw*r+bw)=mask(1,MASK_MASTER_STRIDE*r+1:MASK_MASTER_STRIDE*r+bw);
+        end
+        %temp_mask=cell2mat(wedge_params(4));
+        temp_mask(1,2,w,1:bh*bw)=dst(1:end);
+        wedge_params(4)=mat2cell(temp_mask,[1],[2],[MAX_WEDGE_TYPES],[128*128]);
     end
         
 end
