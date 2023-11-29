@@ -1,5 +1,5 @@
 function [av1_wedge_params_lookup] = create_av1_wedge_params_lookup()
-%% set param
+% fixed values
 MAX_WEDGE_TYPES=16;
 BLOCK_SIZES_ALL=22;
 
@@ -25,16 +25,14 @@ wedge_signflip_lookup=[[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                        [1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1];
                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
-
-wedge_masks=zeros(BLOCK_SIZES_ALL,2,MAX_WEDGE_TYPES,128*128);
-
-% WEDGE_DIRECTIONS
+                   
 WEDGE_HORIZONTAL = 0;
 WEDGE_VERTICAL = 1;
 WEDGE_OBLIQUE27 = 2;
 WEDGE_OBLIQUE63 = 3;
 WEDGE_OBLIQUE117 = 4;
 WEDGE_OBLIQUE153 = 5;
+
 wedge_codebook_16_heqw=[[WEDGE_OBLIQUE27, 4, 4];
                         [WEDGE_OBLIQUE63, 4, 4];
                         [WEDGE_OBLIQUE117, 4, 4];
@@ -68,6 +66,7 @@ wedge_codebook_16_hgtw=[[WEDGE_OBLIQUE27, 4, 4];
                         [WEDGE_OBLIQUE63, 6, 4];
                         [WEDGE_OBLIQUE117, 2, 4];
                         [WEDGE_OBLIQUE117, 6, 4]];
+                    
 wedge_codebook_16_hltw=[[WEDGE_OBLIQUE27, 4, 4];
                         [WEDGE_OBLIQUE63, 4, 4];
                         [WEDGE_OBLIQUE117, 4, 4];
@@ -85,8 +84,8 @@ wedge_codebook_16_hltw=[[WEDGE_OBLIQUE27, 4, 4];
                         [WEDGE_OBLIQUE117, 2, 4];
                         [WEDGE_OBLIQUE117, 6, 4]];
 
-
-%%
+wedge_masks=zeros(BLOCK_SIZES_ALL,2,MAX_WEDGE_TYPES,128*128); % init wedge masks
+% look up table
 av1_wedge_params_lookup={0,NaN,NaN,NaN; %not used
                          0,NaN,NaN,NaN; %not used
                          0,NaN,NaN,NaN; %not used
