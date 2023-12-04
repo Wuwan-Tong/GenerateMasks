@@ -31,21 +31,21 @@ for bsize=1:BLOCK_SIZES_ALL
     masks_save=zeros(2,MAX_WEDGE_TYPES,bh,bw);% init to be saved masks, shape:[1=pos&2=neg,idx of wedge types,mask column, mask row]
     for w=1:wtypes
         % compute mask(master) position from init fixed variables 
-        [mask_pos,wedge_mask_obl_2D]=get_wedge_mask_inplace(w, 0, bsize);
+        [mask_pos,wedge_mask_obl_2D]=get_wedge_mask_inplace_sharp(w, 0, bsize);
         % copy mask from master(mask is a part of master)
         mask_save(:,:)=wedge_mask_obl_2D(mask_pos(1),mask_pos(2),mask_pos(3)+1:mask_pos(3)+bh,mask_pos(4)+1:mask_pos(4)+bw);
         % save mask
         masks_save(1,w,1:bh,1:bw)=mask_save(:,:);
 
         % compute mask(master) from init fixed variables 
-        [mask_pos,wedge_mask_obl_2D]=get_wedge_mask_inplace(w, 1, bsize);
+        [mask_pos,wedge_mask_obl_2D]=get_wedge_mask_inplace_sharp(w, 1, bsize);
         % copy mask from master(mask is a part of master)
         mask_save(:,:)=wedge_mask_obl_2D(mask_pos(1),mask_pos(2),mask_pos(3)+1:mask_pos(3)+bh,mask_pos(4)+1:mask_pos(4)+bw);
         % save mask
         masks_save(2,w,1:bh,1:bw)=mask_save(:,:);
     end
     % save file
-    save(['masks/smooth/masks_w' num2str(bw) '_h' num2str(bh)],'masks_save');
+    save(['masks/sharp/masks_w' num2str(bw) '_h' num2str(bh)],'masks_save');
 end
 
 

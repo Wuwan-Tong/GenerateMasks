@@ -1,4 +1,4 @@
-function [master_pos,wedge_mask_obl_2D] = get_wedge_mask_inplace(wedge_index,neg,sb_type)
+function [master_pos,wedge_mask_obl_2D] = get_wedge_mask_inplace_sharp(wedge_index,neg,sb_type)
 % fixed values
 block_size_wide=[4,  4,  8,  8,   8,   16, 16, 16, 32, 32, 32, 64, 64, 64, 128, 128, 4,  16, 8,  32, 16, 64];
 block_size_high=[4,  8,  4,   8,  16,  8,  16, 32, 16, 32, 64, 32, 64, 128, 64, 128, 16, 4,  32, 8,  64, 16];
@@ -7,9 +7,10 @@ MAX_WEDGE_SIZE_LOG2=5;
 MAX_WEDGE_SIZE=2^MAX_WEDGE_SIZE_LOG2;
 MASK_MASTER_SIZE=MAX_WEDGE_SIZE*2;
 MASK_MASTER_STRIDE=MASK_MASTER_SIZE;
-wedge_master_vertical=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,7,21,43,57,62,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64];
-wedge_master_oblique_even=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,4,11,27,46,58,62,63,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64];
-wedge_master_oblique_odd=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,6,18,37,53,60,63,64,64,64,64,64,64,64,64,64,64 64 64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64];
+wedge_master_vertical=zeros(1,64);
+wedge_master_vertical(33:64)=64;
+wedge_master_oblique_even=wedge_master_vertical;
+wedge_master_oblique_odd=wedge_master_vertical;
 stride=MASK_MASTER_STRIDE;
 h=MASK_MASTER_SIZE;
 w=MASK_MASTER_SIZE;
@@ -111,6 +112,5 @@ end
 % master=zeros(1,MASK_MASTER_STRIDE*bh);
 % master(1,:)=wedge_mask_obl(temp_sign+1,a(1)+1,MASK_MASTER_STRIDE*(MASK_MASTER_SIZE/2-hoff)+MASK_MASTER_SIZE / 2 - woff+1:MASK_MASTER_STRIDE*(MASK_MASTER_SIZE/2-hoff)+MASK_MASTER_SIZE / 2 - woff+MASK_MASTER_STRIDE*bh);
 master_pos=[temp_sign+1,a(1)+1,MASK_MASTER_SIZE/2-hoff,MASK_MASTER_SIZE / 2 - woff];
-
 end
 
