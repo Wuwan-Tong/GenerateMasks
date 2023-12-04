@@ -37,7 +37,7 @@ for bsize=1:BLOCK_SIZES_ALL
             dst(1,bw*r+1:bw*r+bw)=mask(1,MASK_MASTER_STRIDE*r+1:MASK_MASTER_STRIDE*r+bw);
         end
         % save mask
-        mask_save=reshape(dst,[bh bw]);
+        mask_save=reshape(dst,[bw bh])';
         masks_save(1,w,1:bh,1:bw)=mask_save(:,:);
         
         % compute mask(master) from init fixed variables 
@@ -47,7 +47,7 @@ for bsize=1:BLOCK_SIZES_ALL
             dst(1,bw*r+1:bw*r+bw)=mask(1,MASK_MASTER_STRIDE*r+1:MASK_MASTER_STRIDE*r+bw);
         end
         % save mask
-        mask_save=reshape(dst,[bh bw]);
+        mask_save=reshape(dst,[bw bh])';
         masks_save(2,w,1:bh,1:bw)=mask_save(:,:);
     end
     % save file
