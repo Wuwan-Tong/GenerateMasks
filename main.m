@@ -45,7 +45,7 @@ for bsize=1:BLOCK_SIZES_ALL
         masks_save(2,w,1:bh,1:bw)=mask_save(:,:);
     end
     % save file
-    save(['masks/smooth/masks_w' num2str(bw) '_h' num2str(bh)],'masks_save');
+%     save(['masks/smooth/masks_w' num2str(bw) '_h' num2str(bh)],'masks_save');
 end
 
 

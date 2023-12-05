@@ -9,7 +9,7 @@ MASK_MASTER_SIZE=MAX_WEDGE_SIZE*2;
 MASK_MASTER_STRIDE=MASK_MASTER_SIZE;
 wedge_master_vertical=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,7,21,43,57,62,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64];
 wedge_master_oblique_even=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,4,11,27,46,58,62,63,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64];
-wedge_master_oblique_odd=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,6,18,37,53,60,63,64,64,64,64,64,64,64,64,64,64 64 64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64];
+wedge_master_oblique_odd=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,6,18,37,53,60,63,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64];
 stride=MASK_MASTER_STRIDE;
 h=MASK_MASTER_SIZE;
 w=MASK_MASTER_SIZE;
@@ -83,6 +83,8 @@ for i_neg=1:2
     for i_dir=1:6
         temp(:)=wedge_mask_obl(i_neg,i_dir,:);
         wedge_mask_obl_2D(i_neg,i_dir,:,:)=reshape(temp,[MASK_MASTER_SIZE MASK_MASTER_SIZE])';
+%         figure 
+%         heatmap(reshape(temp,[MASK_MASTER_SIZE MASK_MASTER_SIZE])')
     end
 end
 % size of the block 
