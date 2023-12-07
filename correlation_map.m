@@ -7,8 +7,8 @@ ori=1;% if use original wedge, else =2 for complement
 cvar=1-gray;
 
 
-for iw=1:length(block_size_w)
-    for ih=1:length(block_size_h)
+for iw=1%:length(block_size_w)
+    for ih=2%:length(block_size_h)
         % init
         w=block_size_w(iw);
         h=block_size_h(ih);
@@ -24,22 +24,22 @@ for iw=1:length(block_size_w)
                     for itemp_w=1:w
                         for itemp_h=1:h
                             temp_dictionary(:,:)=DCT_Dictionary(wtype,itemp_h,itemp_w,:,:);
-                            cor_map(ipos_h,ipos_w,itemp_h,itemp_w)=corr2(current_dictionary,temp_dictionary);
+                            cor_map(ipos_h,ipos_w,itemp_h,itemp_w)=abs(corr2(current_dictionary,temp_dictionary));
                         end
                     end
-% %                     plot
-%                     temp=zeros(h,w);
-%                     temp(:,:)=cor_map(ipos_h,ipos_w,:,:);
-%                     figure
-%                     set(gcf,'Position',[20,20,100,500]);
-%                     img=heatmap(temp,'ColorMap',cvar);
-%                     img.XDisplayLabels ={'','','','','','','',''};
-%                     img.YDisplayLabels ={'','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''};
-%                     set(gcf,'windowstyle','normal')
-%                     img.Position =[0 0 1 1];
-%                     filename_fig=['DCT_Dictionary/png_figs/w', num2str(w),'_h', num2str(h), '/wedge_type', num2str(wtype),'/y',num2str(ipos_h), '_x',num2str(ipos_w)];
-%                     saveas(gcf,filename_fig,'png')
-%                     close(gcf);
+%                     plot
+                    temp=zeros(h,w);
+                    temp(:,:)=cor_map(ipos_h,ipos_w,:,:);
+                    figure
+                    set(gcf,'Position',[20,20,300,600]);
+                    img=heatmap(temp,'ColorLimits',[0 1],'ColorMap',cvar);
+                    img.XDisplayLabels ={'','','','','','','',''};
+                    img.YDisplayLabels ={'','','','','','','','','','','','','','','',''};
+                    set(gcf,'windowstyle','normal')
+                    img.Position =[0 0 1 1];
+                    filename_fig=['DCT_Dictionary/corr/png_figs/w', num2str(w),'_h', num2str(h), '/wedge_type', num2str(wtype),'/y',num2str(ipos_h), '_x',num2str(ipos_w)];
+                    saveas(gcf,filename_fig,'png')
+                    close(gcf);
                 end
             end
             filemane_corr=['DCT_Dictionary/corr/corr_w',num2str(w),'_h',num2str(h),'_wtype',num2str(wtype),'.mat'];

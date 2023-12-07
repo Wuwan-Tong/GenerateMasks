@@ -16,12 +16,16 @@ for iw=1:length(block_size_w)
                 for ipos_h=1:h
                     temp_block(:,:)=cor_map(ipos_h,ipos_w,:,:);
                     temp_block(ipos_h,ipos_w)=0;
+                    temp_block(max(ipos_h-1,1),ipos_w)=0;
+                    temp_block(min(ipos_h+1,h),ipos_w)=0;
+                    temp_block(ipos_h,max(ipos_w-1,1))=0;
+                    temp_block(ipos_h,min(ipos_w+1,w))=0;
                     max_map(ipos_h,ipos_w)=max(max(abs(temp_block)));
                 end
             end
             coh(1,wtype)=max(max(max_map));
         end
-        filename_coh=['coherence_w',num2str(w),'_h',num2str(h)];
+        filename_coh=['coherence_Nei_w',num2str(w),'_h',num2str(h)];
         save(filename_coh,'coh')
     end
 end
