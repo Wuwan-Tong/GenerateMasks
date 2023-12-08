@@ -25,7 +25,7 @@ for iw=1:length(block_size_w)
             end
             coh(1,wtype)=max(max(max_map));
         end
-        filename_coh=['coherence_Nei_w',num2str(w),'_h',num2str(h)];
+        filename_coh=['DCT_Dictionary/coh_Nei/coherence_Nei_w',num2str(w),'_h',num2str(h)];
         save(filename_coh,'coh')
     end
 end

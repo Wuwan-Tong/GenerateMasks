@@ -28,7 +28,7 @@ for iw=1:length(block_size_w)
                 end
             end
         end
-        filename=['DCT_Dictionary/DCT_Dictionary_w',num2str(w),'_h',num2str(h),'.mat'];
+        filename=['DCT_Dictionary/data/DCT_Dictionary_w',num2str(w),'_h',num2str(h),'.mat'];
         save(filename,'DCT_Dictionary');
     end
 end

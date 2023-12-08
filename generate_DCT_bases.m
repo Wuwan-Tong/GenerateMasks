@@ -1,8 +1,8 @@
 block_size_w=[8 16 32];
 block_size_h=[8 16 32];
 cvar=1-gray;
-for iw=1
-    for ih=2
+for iw=1:3
+    for ih=1:3
         w=block_size_w(iw);
         h=block_size_h(ih);
         D1=dctmtx(w);
@@ -22,8 +22,10 @@ for iw=1
 %             saveas(gcf,filename,'png')
 %             close(gcf);
         end
+        filename=['DCT_basis/DCT_basis_w',num2str(w),'_h',num2str(h),'.mat'];
+        save(filename,'DCT_basis');
     end
 end
-figure
-heatmap(DCT_basis)
+% figure
+% heatmap(DCT_basis)
 
