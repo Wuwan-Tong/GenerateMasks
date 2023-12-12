@@ -1,9 +1,9 @@
 - generate smooth and sharp masks according to the C code: run file main.m (smooth) , main_sharp.m (sharp), set up path where to save masks
     
-  data mask is a 4D matrix: [ori=1&complement=2, wedge type, makes_h, masks_w]  
+  data mask is a 4D matrix: [ori=1&complement=2, wedge type, h\*h, w\*w] (like DCT bases on google image)  
 - generate DCT bases (data and .png figures) for different block size: run generate_DCT_bases.m, set up path to save the data and figures, and using original or complement masks
     
-  data DCT bases is a 2D matrix: [h,w]  
+  data DCT bases is a 2D matrix: [h\*h,w\*w] (like DCT bases on google image)  
 - generate DCT dictionaries (data and .png figures) with original sharp masks and complement sharp masks: run DCT_dictionary.m, set up path where to load masks and DCT_bases and whare to save the data and figures, and choose using original or complement masks
     
   data DCT dictionary is a 5D matrix: [wedge type, h position, w position, h, w]  
