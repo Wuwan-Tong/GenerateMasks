@@ -5,7 +5,8 @@
 - get coherence and [coherence without considering vertical and horizontal neighbors]: run coherence.m and coherence_Neighbor.m
 
 
-- The folder structure is:  
+- The folder structure is:
+  
 --(code files)
     
 --masks
