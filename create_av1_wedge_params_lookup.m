@@ -1,4 +1,5 @@
 function [av1_wedge_params_lookup] = create_av1_wedge_params_lookup()
+% a function called by main.m and main_sharp.m
 % fixed values
 MAX_WEDGE_TYPES=16;
 BLOCK_SIZES_ALL=22;

@@ -1,4 +1,5 @@
 function [master_pos,wedge_mask_obl_2D] = get_wedge_mask_inplace_sharp(wedge_index,neg,sb_type)
+% a function called by main_sharp.m
 % fixed values
 block_size_wide=[4,  4,  8,  8,   8,   16, 16, 16, 32, 32, 32, 64, 64, 64, 128, 128, 4,  16, 8,  32, 16, 64];
 block_size_high=[4,  8,  4,   8,  16,  8,  16, 32, 16, 32, 64, 32, 64, 128, 64, 128, 16, 4,  32, 8,  64, 16];

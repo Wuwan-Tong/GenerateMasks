@@ -1,3 +1,10 @@
+%% run this file to generate smooth masks
+%% set parameters
+% path to save masks
+path_smooth_mask_data='masks/smooth';
+path_smooth_mask_png_ori='masks/smooth/png_figs/ori';
+path_smooth_mask_png_compl='masks/smooth/png_figs/compl';
+%%
 %fixed values
 MAX_WEDGE_TYPES=16;
 BLOCK_SIZES_ALL=22;
@@ -36,6 +43,45 @@ for bsize=1:BLOCK_SIZES_ALL
         mask_save(:,:)=wedge_mask_obl_2D(mask_pos(1),mask_pos(2),mask_pos(3)+1:mask_pos(3)+bh,mask_pos(4)+1:mask_pos(4)+bw);
         % save mask
         masks_save(1,w,1:bh,1:bw)=mask_save(:,:);
+        % plot 
+        figure
+        % set the size of figure to make sure every cell is a square
+        if bh==bw
+            set(gcf,'Position',[20,20,600,600]);
+        elseif bh==2*bw
+            set(gcf,'Position',[20,20,300,600]);
+        elseif bw==2*bh
+            set(gcf,'Position',[20,20,600,300]);
+        elseif bh==4*bw
+            set(gcf,'Position',[20,20,300,1200]);
+        elseif bw==4*bh
+            set(gcf,'Position',[20,20,1200,300]);
+        end
+        % plot heatmap, set value range here
+        img=heatmap(mask_save,'ColorLimits',[0 64],'ColorMap',cvar,'ColorbarVisible','off');
+        % make x and y labels unvisible
+        if bw==8
+            img.XDisplayLabels ={'','','','','','','',''};
+        elseif bw==16
+            img.XDisplayLabels ={'','','','','','','','','','','','','','','',''};
+        else
+            img.XDisplayLabels ={'','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''};
+        end
+        if bh==8
+            img.YDisplayLabels ={'','','','','','','',''};
+        elseif bh==16
+            img.YDisplayLabels ={'','','','','','','','','','','','','','','',''};
+        else
+            img.YDisplayLabels ={'','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''};
+        end
+        % make sure every cell is a square
+        set(gcf,'windowstyle','normal')
+        img.Position =[0 0 1 1];
+
+        % save file
+        filename=[path_smooth_mask_png_ori,'/w',num2str(bw),'_h', num2str(bh),'_wtype',num2str(w)];
+        saveas(gcf,filename,'png')
+        close(gcf);
 
         % compute mask(master) from init fixed variables 
         [mask_pos,wedge_mask_obl_2D]=get_wedge_mask_inplace(w, 1, bsize);
@@ -43,9 +89,51 @@ for bsize=1:BLOCK_SIZES_ALL
         mask_save(:,:)=wedge_mask_obl_2D(mask_pos(1),mask_pos(2),mask_pos(3)+1:mask_pos(3)+bh,mask_pos(4)+1:mask_pos(4)+bw);
         % save mask
         masks_save(2,w,1:bh,1:bw)=mask_save(:,:);
+        % plot 
+        figure
+        % set the size of figure to make sure every cell is a square
+        if bh==bw
+            set(gcf,'Position',[20,20,600,600]);
+        elseif bh==2*bw
+            set(gcf,'Position',[20,20,300,600]);
+        elseif bw==2*bh
+            set(gcf,'Position',[20,20,600,300]);
+        elseif bh==4*bw
+            set(gcf,'Position',[20,20,300,1200]);
+        elseif bw==4*bh
+            set(gcf,'Position',[20,20,1200,300]);
+        end
+        % plot heatmap, set value range here
+        img=heatmap(mask_save,'ColorLimits',[0 64],'ColorMap',cvar,'ColorbarVisible','off');
+        % make x and y labels unvisible
+        if bw==8
+            img.XDisplayLabels ={'','','','','','','',''};
+        elseif bw==16
+            img.XDisplayLabels ={'','','','','','','','','','','','','','','',''};
+        else
+            img.XDisplayLabels ={'','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''};
+        end
+        if bh==8
+            img.YDisplayLabels ={'','','','','','','',''};
+        elseif bh==16
+            img.YDisplayLabels ={'','','','','','','','','','','','','','','',''};
+        else
+            img.YDisplayLabels ={'','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''};
+        end
+        % make sure every cell is a square
+        set(gcf,'windowstyle','normal')
+        img.Position =[0 0 1 1];
+
+        % save file
+        filename=[path_smooth_mask_png_compl,'/w',num2str(bw),'_h', num2str(bh),'_wtype',num2str(w)];
+        saveas(gcf,filename,'png')
+        close(gcf);
+        
+        
     end
+    
     % save file
-%     save(['masks/smooth/masks_w' num2str(bw) '_h' num2str(bh)],'masks_save');
+    save([path_smooth_mask_data,'/masks_w' num2str(bw) '_h' num2str(bh)],'masks_save');
 end
 
 
