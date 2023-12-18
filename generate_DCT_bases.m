@@ -10,7 +10,7 @@ path_DCT_bases_png='DCT_bases/png_figs';
 block_size_w=[8 16 32];
 block_size_h=[8 16 32];
 % set color
-cvar=gray;
+cvar=gray; 
 %%
 for iw=1:length(block_size_w) % block size
     for ih=1:length(block_size_h)
