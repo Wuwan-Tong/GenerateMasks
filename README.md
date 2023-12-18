@@ -81,5 +81,5 @@
 
 - note
   1. In total 203840 figures for both original&complement masks, DCT bases, DCT dictionaries and correlation map. Plot wothout values in the heatmap is much faster.  
-  2. if you only need data, comment out the code block for plotting (in code file marked as % plot start------ and % plot end-------), it will be very fast to get the result.  
-  3. While running the code, sometimes matlab close itself with unknown reason. Then we have to restart matlab and restart running. You can change the value of for-loop at 'for var=1:xx' to restart shortly before the break point, so as to not waste much time.  
+  2. if you only need data, comment out the code block for plotting (in code file marked as % plot start------ and % plot end-------), it will be very fast to get the result without plotting.  
+  3. While running the code, sometimes matlab close itself with unknown reason. I'm not sure if the same thing also happens to your computer. Then I have to restart matlab and restart running. If this happens, you can change the value of for-loop at 'for var=1:xx' to restart shortly before the break point, so as to not waste much time.  
