@@ -16,10 +16,9 @@
   data coherence is a 1D array: [wedge type]  
 
 
-- The folder structure is:
+- The folder structure is (according to the path in the code, you can change it correspondingly):
   
---(code files)
-    
+--(code files)    
 --masks  
   --------sharp  
       ---------------png_figs  
@@ -28,8 +27,7 @@
   --------smooth  
       ---------------png_figs  
       ------------------------ori  
-      ------------------------compl  
-    
+      ------------------------compl      
 --DCT_bases  
   --------data  
   --------png_figs  
@@ -41,8 +39,7 @@
       ----------------w16_h32  
       ----------------w32_h8  
       ----------------w32_h16  
-      ----------------w32_h32  
-        
+      ----------------w32_h32          
 --DCT_Dictionary  
   --------data  
   ----------------ori  
@@ -81,3 +78,8 @@
       --------------------------------w32_h8  
       --------------------------------w32_h16  
       --------------------------------w32_h32  
+
+- note
+  1. In total 203840 figures for both original&complement masks, DCT bases, DCT dictionaries and correlation map. Plot wothout values in the heatmap is much faster.  
+  2. if you only need data, comment out the code block for plotting (in code file marked as % plot start------ and % plot end-------), it will be very fast to get the result.  
+  3. While running the code, sometimes matlab close itself with unknown reason. Then we have to restart matlab and restart running. You can change the value of for-loop at 'for var=1:xx' to restart shortly before the break point, so as to not waste much time.  
