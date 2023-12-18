@@ -62,51 +62,51 @@ for iw=1:length(block_size_w) % block size
                     % combine DCT bases with masks and normalize
                     DCT_Dictionary(wtype,ipos_h,ipos_w,:,:)=(DCT_Dictionary_current.*wedge_current)/norm(DCT_Dictionary_current.*wedge_current);
                     
-%                     % plot start-----
-%                     figure
-%                     % set the size of figure to make sure every cell is a square
-%                     if h==w
-%                         set(gcf,'Position',[20,20,600,600]);
-%                     elseif h==2*w
-%                         set(gcf,'Position',[20,20,300,600]);
-%                     elseif w==2*h
-%                         set(gcf,'Position',[20,20,600,300]);
-%                     elseif h==4*w
-%                         set(gcf,'Position',[20,20,300,1200]);
-%                     elseif w==4*h
-%                         set(gcf,'Position',[20,20,1200,300]);
-%                     end
-%                     % plot heatmap, set value range here, set which blocksize requires values in heatmap
-%                     if w*h<129
-%                         img=heatmap((DCT_Dictionary_current.*wedge_current)/norm(DCT_Dictionary_current.*wedge_current),'ColorLimits',[-1 1],'ColorMap',cvar,'ColorbarVisible','off');
-%                         img.CellLabelFormat='%0.2f';
-%                     else
-%                         img=heatmap((DCT_Dictionary_current.*wedge_current)/norm(DCT_Dictionary_current.*wedge_current),'ColorLimits',[-1 1],'ColorMap',cvar,'ColorbarVisible','off','CellLabelColor','none');
-%                     end
-%                     % make x and y labels unvisible
-%                     if iw==1
-%                         img.XDisplayLabels ={'','','','','','','',''};
-%                     elseif iw==2
-%                         img.XDisplayLabels ={'','','','','','','','','','','','','','','',''};
-%                     else
-%                         img.XDisplayLabels ={'','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''};
-%                     end
-%                     if ih==1
-%                         img.YDisplayLabels ={'','','','','','','',''};
-%                     elseif ih==2
-%                         img.YDisplayLabels ={'','','','','','','','','','','','','','','',''};
-%                     else
-%                         img.YDisplayLabels ={'','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''};
-%                     end
-%                     % make sure every cell is a square
-%                     set(gcf,'windowstyle','normal')
-%                     img.Position =[0 0 1 1];
-% 
-%                     % save file
-%                     filename=[path_DCT_dictionary_png,'/w', num2str(w),'_h', num2str(h),'/y', num2str(ipos_h),'_x', num2str(ipos_w),'_wtype',num2str(wtype)];
-%                     saveas(gcf,filename,'png')
-%                     close(gcf);
-%                     % plot end-----
+                    % plot start-----
+                    figure
+                    % set the size of figure to make sure every cell is a square
+                    if h==w
+                        set(gcf,'Position',[20,20,600,600]);
+                    elseif h==2*w
+                        set(gcf,'Position',[20,20,300,600]);
+                    elseif w==2*h
+                        set(gcf,'Position',[20,20,600,300]);
+                    elseif h==4*w
+                        set(gcf,'Position',[20,20,300,1200]);
+                    elseif w==4*h
+                        set(gcf,'Position',[20,20,1200,300]);
+                    end
+                    % plot heatmap, set value range here, set which blocksize requires values in heatmap
+                    if w*h<129
+                        img=heatmap((DCT_Dictionary_current.*wedge_current)/norm(DCT_Dictionary_current.*wedge_current),'ColorLimits',[-1 1],'ColorMap',cvar,'ColorbarVisible','off');
+                        img.CellLabelFormat='%0.2f';
+                    else
+                        img=heatmap((DCT_Dictionary_current.*wedge_current)/norm(DCT_Dictionary_current.*wedge_current),'ColorLimits',[-1 1],'ColorMap',cvar,'ColorbarVisible','off','CellLabelColor','none');
+                    end
+                    % make x and y labels unvisible
+                    if iw==1
+                        img.XDisplayLabels ={'','','','','','','',''};
+                    elseif iw==2
+                        img.XDisplayLabels ={'','','','','','','','','','','','','','','',''};
+                    else
+                        img.XDisplayLabels ={'','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''};
+                    end
+                    if ih==1
+                        img.YDisplayLabels ={'','','','','','','',''};
+                    elseif ih==2
+                        img.YDisplayLabels ={'','','','','','','','','','','','','','','',''};
+                    else
+                        img.YDisplayLabels ={'','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''};
+                    end
+                    % make sure every cell is a square
+                    set(gcf,'windowstyle','normal')
+                    img.Position =[0 0 1 1];
+
+                    % save file
+                    filename=[path_DCT_dictionary_png,'/w', num2str(w),'_h', num2str(h),'/y', num2str(ipos_h),'_x', num2str(ipos_w),'_wtype',num2str(wtype)];
+                    saveas(gcf,filename,'png')
+                    close(gcf);
+                    % plot end-----
                 end
             end
         end

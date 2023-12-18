@@ -35,8 +35,8 @@ block_size_h=[8 16 32];
 cvar=gray;
 
 %%
-for iw=3%1:length(block_size_w) % block size
-    for ih=3%1:length(block_size_h)
+for iw=1:length(block_size_w) % block size
+    for ih=1:length(block_size_h)
         w=block_size_w(iw);
         h=block_size_h(ih);
         
