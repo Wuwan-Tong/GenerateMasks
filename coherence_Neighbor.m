@@ -1,37 +1,67 @@
-9999999017
-38.554000000000372 56.547199999999876 373.310799999999006
-38.554000000000372 56.547199999999862 446.110799999999074
-38.554000000000372 56.547199999999862 446.810799999999006
-38.554000000000372 56.547199999999862 447.510799999999051
-38.554000000000372 56.547199999999862 448.210799999998983
-38.554000000000372 56.547199999999862 448.910799999999028
-38.554000000000400 56.547199999999862 468.510799999999051
-38.554000000000400 56.547199999999862 469.210799999998983
-38.554000000000372 56.578199999999882 371.210799999999040
-38.554000000000400 56.578199999999867 469.910799999999028
-38.554000000000400 56.623199999999883 472.010799999999051
-38.554000000000400 56.655199999999866 470.610799999999074
-38.554000000000372 56.694199999999896 251.509799999999018
-38.554000000000400 56.694199999999881 471.310799999999006
-38.554000000000372 56.743199999999874 370.510799999999051
-38.554000000000372 56.759199999999879 451.710799999998983
-38.554000000000372 56.914199999999894 251.859799999999041
-38.554000000000372 56.914199999999894 370.099799999999050
-38.554000000000372 56.914199999999880 451.946799999998973
-38.554000000000400 56.914199999999880 477.245799999999065
-38.554000000000372 57.038199999999890 369.810799999999006
-38.554000000000372 57.134199999999893 252.209799999999007
-38.554000000000372 57.173199999999881 369.110799999999017
-38.554000000000372 57.173199999999866 452.410799999999028
-38.554000000000372 57.249199999999874 368.410799999999028
-38.554000000000372 57.281199999999885 252.909799999999052
-38.554000000000372 57.281199999999885 367.010799999999051
-38.554000000000372 57.281199999999885 367.710799999999040
-38.554000000000400 57.281199999999870 476.910799999999028
-38.554000000000372 57.313199999999895 366.310799999999006
-38.554000000000372 57.389199999999889 365.610799999999017
-38.554000000000372 57.389199999999875 453.110799999999074
-38.554000000000372 57.428199999999876 253.609799999999041
-38.554000000000372 57.524199999999880 364.909799999999052
-38.554000000000372 57.648199999999875 253.959799999999007
-38.554000000000372
+%% run this file to get coherence data wothout considering its vertical and horizontal neighbors
+% set up the path to load correlation map data and to save coherence data
+%% set parameters
+% use original mask or complement?
+ori=1;% if use original wedge, else =2 for complement
+
+% path to load correlation map data
+if ori==1
+    path_corr_data='DCT_Dictionary/corr/data/ori';
+else
+    path_corr_data='DCT_Dictionary/corr/data/compl';
+end
+% path to save coherence data
+if ori==1
+    path_cohNei_data='DCT_Dictionary/coh_Nei/ori';
+else
+    path_cohNei_data='DCT_Dictionary/coh_Nei/compl';
+end
+
+% set block size
+block_size_w=[8 16 32];
+block_size_h=[8 16 32];
+
+%%
+% init coh to save the coherence
+coh=zeros(1,16);
+
+for iw=1:length(block_size_w)
+    for ih=1:length(block_size_h)
+        w=block_size_w(iw);
+        h=block_size_h(ih);
+        % init
+        max_map=zeros(h,w);
+        temp_block=zeros(h,w);
+        
+        for wtype=1:16
+            % load correlation
+            filemane_corr=[path_corr_data,'/corr_w',num2str(w),'_h',num2str(h),'_wtype',num2str(wtype),'.mat'];
+            load(filemane_corr) % =cor_map
+            
+            for ipos_w=1:w
+                for ipos_h=1:h
+                    % compute coherence
+                    temp_block(:,:)=cor_map(ipos_h,ipos_w,:,:);
+                    temp_block(ipos_h,ipos_w)=0; % ignore it self
+                    % ignore neighbors
+                    temp_block(max(ipos_h-1,1),ipos_w)=0;
+                    temp_block(min(ipos_h+1,h),ipos_w)=0;
+                    temp_block(ipos_h,max(ipos_w-1,1))=0;
+                    temp_block(ipos_h,min(ipos_w+1,w))=0;
+                    % get max correlation each sub block
+                    max_map(ipos_h,ipos_w)=max(max(abs(temp_block)));
+                end
+            end
+            % get max correlation
+            coh(1,wtype)=max(max(max_map));
+        end
+        
+        % save coherence
+        filename_coh=[path_cohNei_data,'/coherence_Nei_w',num2str(w),'_h',num2str(h)];
+        save(filename_coh,'coh')
+    end
+end
+
+
+
+
